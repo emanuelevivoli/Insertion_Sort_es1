@@ -1,0 +1,165 @@
+\documentclass[a4paper, 9pt]{article}
+\usepackage[latin1]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[italian]{babel}
+
+\title{\huge{Insertion sort}}
+\author{Emanuele Vivoli \\ {5979383} \\ {emanuele.vivoli@stud.unifi.it} }
+\date{Marzo 2017}
+
+\usepackage{natbib}
+\usepackage{graphicx}
+\usepackage{algorithm}
+\usepackage{algorithmic}
+\usepackage{hyperref}
+\usepackage{booktabs}
+\usepackage{color}
+\usepackage[table]{xcolor}
+
+\begin{document}
+    \maketitle
+    \vspace{4cm}
+    \tableofcontents
+    
+    
+    
+    
+    \newpage
+    
+    \section{Introduzione}
+    L' \textit{Insertion Sort} \'e un algoritmo relativamete semplice per ordinare un array e molto efficente per ordinare un piccolo numero di elementi. \'E un algoritmo chiamato \textit{in place}, cio\'e ordina l'array senza doverne creare un altro 'di appoggio', quindi risparmia memoria.
+    Non \'e molto diverso dal modo in cui un essere umano, spesso, ordina un mazzo di carte nella propria mano.
+    
+    \subsection{Ordinare un mazzo di carte}
+    \begin{itemize}
+        \item Si inizia con la mano vuota e le carte capovolte sul tavolo
+        \item Poi si prende una carta alla volta dal tavolo e si inserisce nella
+    giusta posizione
+        \item Per trovare la giusta posizione per una carta, la confrontiamo
+    con le altre carte nella mano, da destra verso sinistra. Ogni
+    carta pi\'u grande verr\'a spostata verso destra in modo da fare
+    posto alla carta da inserire.
+    \end{itemize}
+    
+    N.B. : Ogni volta che sollevo una carta dal mazzo, le carte nella mano sono ordinate sempre in ordine crescente.
+    
+    \subsection{Ordinare un array numerico}
+    \begin{itemize}
+        \item La sequenza \'e logicamente suddivisa in due parti: una ordinata ed una non ordinata (all'inizio la sottosequenza ordinata sar\'a formata solamente dal primo valore)
+        \item Viene preso un valore alla volta dalla sottosequenza non ordinata e si inserisce nella sottosequenza ordinata
+        \item Per trovare la giusta posizione del valore appena prelevato dalla sottosequenza non ordinata, confrontiamo il valore con gli altri presenti in quella ordinata, da destra verso sinistra. Ogni valore pi\'u grande verr\'a spostato verso destra in modo da fare posto al valore da inserire.
+    \end{itemize}
+    
+    
+    
+    
+    \newpage
+    
+    \section{Algoritmo}
+    \begin{description}
+        \item[Input] L'algoritmo prede in input una sequanza numerica od un array.
+        \item[Output] L'algoritmo restituisce la sequenza/array avuto in input, ordinato in ordine crescente.
+    \end{description}
+    
+    \subsection{Pseudocodice}
+    \begin{algorithm}
+      \caption{Insertion Sort}
+      \begin{algorithmic}
+        
+        \FOR {$j \leftarrow $2 to [A].length }
+        \STATE $key \leftarrow A[j]$
+        \STATE $i \leftarrow j-1$
+        \WHILE{$i>0$ and $A[i]> key $}
+        \STATE $A[i+1] \leftarrow Aij]$
+        \STATE $i \leftarrow i-1$
+        \ENDWHILE
+        \STATE $A[i+1] \leftarrow key$
+        \ENDFOR
+    
+      \end{algorithmic}
+    \end{algorithm}
+    
+    \subsection{Analisi}
+    \begin{description}
+        \item[Caso ottimo] la sequenza di partenza sia gi\'a ordinata. 
+        
+        
+        In questo caso l'algoritmo ha tempo di esecuzione lineare, ossia $\Theta (n)$. 
+        
+        Infatti, in questo caso, in ogni iterazione il primo elemento della sottosequenza non ordinata viene confrontato solo con l'ultimo della sottosequenza ordinata.
+        
+        \item[Caso pessimo] la sequenza di partenza sia ordinata al contrario. 
+        
+        In questo caso, ogni iterazione dovr\'a scorrere e spostare ogni elemento della sottosequenza ordinata prima di poter inserire il primo elemento della sottosequenza non ordinata. 
+        
+        Pertanto, in questo caso l'algoritmo di \textit{Insertion Sort} ha complessit\'a temporale quadratica, ossia $\Theta (n^{2})$.
+        
+        \item[Caso medio] anch'esso ha complessit\'a quadratica, il che lo rende impraticabile per ordinare sequenze grandi.
+    \end{description}
+    
+    \subsection{Invariante di ciclo}
+        Prima di ogni iterazione il sotto-array $A[1\ ...\ i]$ \'e ordinato.
+        
+        Ad ogni iterazione si prende l'elemento $A[j]$ e lo si pone al suo posto (in ordine crescente) nel sotto-array ordinato.
+        
+        Si prosegue cos\'{i} con il sotto-array non ordinato $A[j+1\ ...\ n-1]$.
+    
+    \newpage
+    \subsection{Esempio grafico}
+        Legenda : {\color{green!70} \textbf{VERDE:} Array ordinato}, {\color{red!70} \textbf{ROSSO:} Array non ordinato}
+    \begin{center}
+        \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|}
+          
+          \multicolumn{10}{c}{} \\ \hline
+          \rowcolor{green!70} 21 & \rowcolor{red!70} 100 & 9 & 43 & 33 & 73 & 19 & 93 & 1 & 80 \\ \hline
+          \multicolumn{10}{c}{}\\
+          
+          
+          \multicolumn{1}{c}{$ \rightarrow $} & \multicolumn{1}{c}{$ \rightarrow $} & \multicolumn{8}{c}{} \\ \hline
+          \rowcolor{green!70} 21 & 100 & \rowcolor{red!70} 9 & 43 & 33 & 73 & 19 & 93 & 1 & 80 \\ \hline
+          \multicolumn{3}{c}{$ \leftarrow ----- $} & \multicolumn{7}{c}{}\\
+          
+          
+          \multicolumn{2}{c}{} & \multicolumn{1}{c}{$ \rightarrow $} & \multicolumn{7}{c}{}\\ \hline
+          \rowcolor{green!70} 9 & 21 & 100 & \rowcolor{red!70} 43 & 33 & 73 & 19 & 93 & 1 & 80 \\ \hline
+          \multicolumn{2}{c}{} & \multicolumn{2}{c}{$ \leftarrow --- $} &  \multicolumn{6}{c}{}\\
+          
+         
+          \multicolumn{2}{c}{} & \multicolumn{1}{c}{$ \rightarrow $} & \multicolumn{1}{c}{$ \rightarrow $} & \multicolumn{6}{c}{}\\ \hline
+          \rowcolor{green!70} 9 & 21 & 43 & 100 & \rowcolor{red!70} 33 & 73 & 19 & 93 & 1 & 80 \\ \hline
+          \multicolumn{2}{c}{} & \multicolumn{3}{c}{$ \leftarrow ----- $} &  \multicolumn{5}{c}{}\\
+          
+          
+          \multicolumn{4}{c}{} & \multicolumn{1}{c}{$ \rightarrow $} & \multicolumn{5}{c}{}\\ \hline
+          \rowcolor{green!70} 9 & 21 & 33 & 43 & 100 & \rowcolor{red!70} 73 & 19 & 93 & 1 & 80 \\ \hline
+          \multicolumn{4}{c}{} & \multicolumn{2}{c}{$ \leftarrow --- $} &  \multicolumn{4}{c}{}\\
+          
+          
+          \multicolumn{1}{c}{} & \multicolumn{1}{c}{$ \rightarrow $} & \multicolumn{1}{c}{$ \rightarrow $} & \multicolumn{1}{c}{$ \rightarrow $} & \multicolumn{1}{c}{$ \rightarrow $} & \multicolumn{1}{c}{$ \rightarrow $} & \multicolumn{3}{c}{}\\ \hline
+          \rowcolor{green!70} 9 & 21 & 33 & 43 & 73 & 100 & \rowcolor{red!70} 19 & 93 & 1 & 80 \\ \hline
+          \multicolumn{1}{c}{} & \multicolumn{6}{c}{$ \leftarrow -------------- $} &  \multicolumn{3}{c}{}\\
+          
+          
+          \multicolumn{6}{c}{} & \multicolumn{1}{c}{$ \rightarrow $} & \multicolumn{3}{c}{}\\ \hline
+          \rowcolor{green!70} 9 & 19 & 21 & 33 & 43 & 73 & 100 & \rowcolor{red!70} 93 & 1 & 80 \\ \hline
+          \multicolumn{6}{c}{} & \multicolumn{2}{c}{$ \leftarrow --- $} &  \multicolumn{2}{c}{}\\
+          
+          
+          \multicolumn{1}{c}{$ \rightarrow $} & \multicolumn{1}{c}{$ \rightarrow $} & \multicolumn{1}{c}{$ \rightarrow $} & \multicolumn{1}{c}{$ \rightarrow $} & \multicolumn{1}{c}{$ \rightarrow $} & \multicolumn{1}{c}{$ \rightarrow $} & \multicolumn{1}{c}{$ \rightarrow $} & \multicolumn{1}{c}{$ \rightarrow $} & \multicolumn{2}{c}{}\\ \hline
+          \rowcolor{green!70} 9 & 19 & 21 & 33 & 43 & 73 & 93 & 100 & \rowcolor{red!70} 1 & 80 \\ \hline
+          \multicolumn{9}{c}{$ \leftarrow ---------------------- $} &  \multicolumn{1}{c}{}\\
+          
+          
+          \multicolumn{7}{c}{} & \multicolumn{1}{c}{$ \rightarrow $} & \multicolumn{1}{c}{$ \rightarrow $} & \multicolumn{1}{c}{}\\ \hline
+          \rowcolor{green!70} 1 & 9 & 19 & 21 & 33 & 43 & 73 & 93 & 100 & \rowcolor{red!70} 80 \\ \hline
+          \multicolumn{7}{c}{} & \multicolumn{3}{c}{$ \leftarrow ------ $}\\
+          
+          
+          \multicolumn{10}{c}{}\\ \hline
+          \rowcolor{green!70} 1 & 9 & 19 & 21 & 33 & 43 & 73 & 80 & 93 & 100\\ \hline
+          \multicolumn{10}{c}{}\\
+          
+        \end{tabular}
+    \end{center}
+
+\end{document}
